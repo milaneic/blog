@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 // Auth::routes(['verify'=>true]);
 Auth::routes();
@@ -29,7 +29,8 @@ Route::GET('posts/create','PostController@create')->name('posts.create');
 Route::POST('posts/store','PostController@store')->name('posts.store');
 // Route::PATCH('posts/update','PostController@update')->name('posts.update');
 
-
+//Temporary
+Route::get('categories','CategoryController@index')->name('categories.index');
 
 
 //Routes that can only admins and its owners use 

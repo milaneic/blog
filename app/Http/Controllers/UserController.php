@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Post;
+use App\Role;
 use App\Comment;
 
 use Carbon\Carbon;
@@ -66,7 +67,8 @@ class UserController extends Controller
         //
         $posts=Post::where('user_id',$user->id)->get();
         $comments=Comment::where('user_id',$user->id)->get();
-        return view('admin.users.edit',['user'=>$user,'posts'=>$posts,'comments'=>$comments]);
+        $role=Role::all();
+        return view('admin.users.edit',['user'=>$user,'posts'=>$posts,'comments'=>$comments,'role'=>$role]);
     }
 
     /**

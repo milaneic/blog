@@ -5,7 +5,7 @@
     <h3>User {{ $user->name }}</h3>
     
     <h2>All posts</h2>
-    <table>
+    <table class="table-striped">
         <thead>
             <th>#</th>
             <th>Caption</th>
@@ -39,7 +39,7 @@
 </table>
 <h2>All comments</h2>
 
-<table>
+<table class="table-striped">
     <thead>
         <th>#</th>
         <th>Post id</th>
