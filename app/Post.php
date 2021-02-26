@@ -9,7 +9,7 @@ class Post extends Model
 {
     //
     protected $fillable=[
-        'caption','description','img'
+        'caption','description','img','text'
     ];
 
     public function categories(){

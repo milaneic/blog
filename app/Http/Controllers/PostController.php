@@ -3,20 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Category;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PostController extends HomeController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        //
+        $this->data['categories']=Category::all();
+        $this->data['posts']=Post::paginate(10);
         //dd(Post::all());
-        return view('home',['posts'=>Post::paginate(10)]);
+        return view('pages.main.home',$this->data);
     }
 
     /**
@@ -50,10 +53,12 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
-        //dd($post->comments);
-        return view('posts.show',['post'=>$post]);
+        
+        return view('pages.posts.post', ['post' => $post , 'menu' => $this->data['menu']]);
     }
+
+    
+
 
     /**
      * Show the form for editing the specified resource.
@@ -63,8 +68,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
-        return view('posts.edit',['post'=>$post]);
+        $this->data['post']=$post;
+        return view('posts.edit',$this->data);
     }
 
     /**
@@ -97,6 +102,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->delete();
+        $post->flush();
         //
     }
 }

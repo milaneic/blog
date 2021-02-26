@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,15 +12,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'PostController@index')->name('home');
 
-// Route::get('/posts', 'PostController@index')->name('home');
+Route::get('/posts/{post}', 'PostController@show')->name('post.show');
 
-Route::resource('post','PostController');
+Route::get('/contact', 'HomeController@contact')->name('contact');
+Route::get('/login', 'HomeController@login')->name('login');
+Route::get('/register', 'HomeController@register')->name('register');
+
+
 

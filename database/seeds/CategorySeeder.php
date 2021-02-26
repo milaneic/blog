@@ -22,7 +22,8 @@ class CategorySeeder extends Seeder
             $cat=Category::create(
                 [
                     'name'=>$cat,
-                    'description'=>$faker->sentence(10,true)
+                    'description'=>$faker->sentence(10,true),
+                    'image'=>'right1.jpg'
 
                 ]
                 
