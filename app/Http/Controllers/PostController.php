@@ -27,8 +27,8 @@ class PostController extends Controller
     public function create()
     {
         //
-
-        
+        dd('dsaasd');
+        return view('posts.create');
     }
 
     /**
@@ -40,6 +40,17 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $inputs=$request->validate([
+            'caption'=>['string','max:255','required'],
+            'description'=>['text','required'],
+            'img'=>['mimes:jpeg,jpg,png,gif','required']
+        ]);
+        Post::create([
+            'caption'=>$inputs['caption'],
+            'description'=>$inputs['caption'],
+            'description'=>['text','required'],
+            'img'=>['mimes:jpeg,jpg,png,gif']
+        ]);
     }
 
     /**
@@ -51,7 +62,6 @@ class PostController extends Controller
     public function show(Post $post)
     {
         //
-        //dd($post->comments);
         return view('posts.show',['post'=>$post]);
     }
 
@@ -98,5 +108,8 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+        $post->delete();
+        session()->flash('message','Post is successfuly deleted!');
+        return redirect()->back();
     }
 }

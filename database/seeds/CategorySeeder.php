@@ -33,7 +33,8 @@ class CategorySeeder extends Seeder
                     'caption'=>$faker->word,
                     'description'=>$faker->text,
                     'text'=>$faker->text,
-                    'img'=>$faker->imageUrl
+                    'img'=>$faker->imageUrl,
+                    'user_id'=>rand(1,10),
                 ]);
             }
         }

@@ -27,6 +27,11 @@
 <div class="post-body">
 <h3 class="post-caption">{{$post->caption}}</h3>
 <img src="{{$post->img}}" alt="">
+<h2>Categories:
+    @foreach ($post->categories as $item)
+        {{ $item->name }},
+    @endforeach
+</h2>
 <p>{{$post->description}}</p>
 
 @endforeach
