@@ -12,6 +12,11 @@ class Category extends Model
     ];
 
     public function posts(){
-        return $this->hasMany(Post::class);
+        return $this->belongsToMany(Post::class,'category_post');
+    }
+
+    public function log()
+    {
+        return $this->morphOne(Log::class,'loggable');
     }
 }

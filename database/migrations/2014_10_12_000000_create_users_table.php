@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_login')->nullable();
             $table->foreignId('role_id')->constrained()->cascadeOnDelete();
             $table->string('password');
+            $table->string('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
