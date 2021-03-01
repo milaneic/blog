@@ -16,7 +16,7 @@ class HomeController extends Controller
     protected $data;
     public function __construct()
     {
-        $this->data['menu']= \DB::table('menus')->get();
+        // $this->data['menu']= \DB::table('menus')->get();
         $this->middleware('auth');
 
     }

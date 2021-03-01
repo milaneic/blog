@@ -15,6 +15,7 @@ class RoleController extends Controller
     public function index()
     {
         //
+        return view('admin.roles.index',['roles'=>Role::all()]);
     }
 
     /**
@@ -25,6 +26,7 @@ class RoleController extends Controller
     public function create()
     {
         //
+        return view('admin.roles.create');
     }
 
     /**
@@ -36,6 +38,15 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         //
+        $input=$request->validate([
+            'name'=>['string','max:255','required']
+        ]);
+        Role::create($input);
+        session()->flash('message','Role has been successfuly created.');
+        session()->flash('alert-class','alert-success');
+        return redirect()->route('roles.index');
+
+
     }
 
     /**
@@ -47,6 +58,7 @@ class RoleController extends Controller
     public function show(Role $role)
     {
         //
+        return view('admin.roles.show',['role'=>$role]);
     }
 
     /**
@@ -58,6 +70,7 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         //
+        return view('admin.roles.edit',['role'=>$role]);
     }
 
     /**
@@ -70,6 +83,22 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         //
+        $input=$request->validate([
+            'name'=>['string','max:255','required']
+        ]);
+
+        $role->name=$input['name'];
+        
+        if ($role->isDirty()) {
+            $role->update();
+        session()->flash('message','Role has been successfuly updated.');
+        session()->flash('alert-class','alert-success');
+        }else{
+            session()->flash('message','You have not made any changes to your role.');
+          
+        }
+        
+        return redirect()->route('roles.edit',['role'=>$role]);
     }
 
     /**
@@ -81,5 +110,9 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         //
+        $role->delete();
+        session()->flash('message','Role has been successfuly deleted.');
+        session()->flash('alert-class','alert-success');
+        return redirect()->route('roles.index');
     }
 }

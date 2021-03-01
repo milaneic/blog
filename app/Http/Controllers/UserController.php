@@ -6,6 +6,7 @@ use App\User;
 use App\Post;
 use App\Role;
 use App\Comment;
+use Illuminate\Support\Facades\Hash;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -65,10 +66,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         //
-        $posts=Post::where('user_id',$user->id)->get();
-        $comments=Comment::where('user_id',$user->id)->get();
-        $role=Role::all();
-        return view('admin.users.edit',['user'=>$user,'posts'=>$posts,'comments'=>$comments,'role'=>$role]);
+        return view('admin.users.edit',['user'=>$user,'role'=>Role::all()]);
     }
 
     /**
@@ -81,18 +79,32 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
+        //  dd($request->all());
         $input=$request->validate([
             'name'=>['string','required'],
-            'email'=>['email','required'],
-            'role_id'=>['required']
+            'email'=>['email','required','unique:users,email,'.$user->id],
+            'password'=>['sometimes','min:8','confirmed'],
+            'role_id'=>['required'],
+            'avatar'=>['sometimes','mimes:jpeg,png,jpg,gif,svg']
         ]);
+        dd($request->all());
+        $img=$request->file('avatar');
+        dd($img);
+        if($img!=null){
+            $image=$img->store('avatar/','public');
+            dd($image);
+        }
 
-        //dd($request);
-        $user->update($input);
-
-        session()->flash('message','User has been updated!');
-        return redirect()->route('users.index');
-
+        // if($input['password']!=null){
+        //     $user->password=Hash::make($input['password']);
+        // }
+    
+            session()->flash('message','User has been successfuly updated!');
+            session()->flash('alert-class','alert-success');
+       
+            session()->flash('message','You have not changed a user!');
+        
+        return redirect()->route('users.edit',$user);
     }
 
     /**

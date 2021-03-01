@@ -10,7 +10,7 @@ class Log extends Model
 {
     //
     protected $fillable=[
-        'slug','name'
+        'user_id','logs_type_id'
     ];
 
     public function user(){
