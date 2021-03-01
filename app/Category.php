@@ -8,15 +8,12 @@ class Category extends Model
 {
     //
     protected $fillable=[
-        'name','description'
+        'name','description','img',
     ];
 
     public function posts(){
         return $this->belongsToMany(Post::class,'category_post');
     }
 
-    public function log()
-    {
-        return $this->morphOne(Log::class,'loggable');
-    }
+   
 }

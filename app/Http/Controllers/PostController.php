@@ -29,7 +29,6 @@ class PostController
     public function create()
     {
         //
-        dd('dsaasd');
         return view('posts.create');
     }
 
