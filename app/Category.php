@@ -15,8 +15,5 @@ class Category extends Model
         return $this->belongsToMany(Post::class,'category_post');
     }
 
-    public function log()
-    {
-        return $this->morphOne(Log::class,'loggable');
-    }
+  
 }
