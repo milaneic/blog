@@ -16,8 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('posts.index');
 })->name('home');
+
+Route::GET('contact',function(){
+
+})->name('contact');
 
 // Auth::routes(['verify'=>true]);
 Auth::routes();
@@ -33,7 +37,7 @@ Route::POST('posts/store','PostController@store')->name('posts.store');
 Route::get('categories','CategoryController@index')->name('categories.index');
 
 
-//Routes that can only admins and its owners use 
+//Routes that can only admins and its owners use
 Route::GET('posts/edit/{post}','PostController@edit')->middleware(['auth','role','can:view,post'])->name('posts.edit');
 Route::PATCH('posts/{post}','PostController@update')->middleware(['auth','role','can:update,post'])->name('posts.update');
 Route::DELETE('posts/{post}','PostController@destroy')->middleware(['auth','role','can:delete,post'])->name('posts.delete');
@@ -46,12 +50,14 @@ Route::PATCH('/users','UserController@update')->name('users.update');
 
 Route::middleware(['auth', 'role'])->prefix('admin/')->group(function () {
 
-        //Users 
+        //Users
         Route::GET('/users','UserController@index')->name('users.index');
         Route::DELETE('/users/{user}','UserController@destroy')->name('users.delete');
 
         //Route for comments
+        Route::GET('comments','CommentController@index')->name('comments.index');
         Route::GET('comments/edit/{comment}','CommentController@edit')->name('comments.edit');
+
         Route::PATCH('comments','CommentController@update')->name('comments.update');
         Route::DELETE('comments/{comment}','CommentController@destroy')->name('comments.delete');
 });
