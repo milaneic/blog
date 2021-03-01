@@ -33,9 +33,14 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Post $post)
     {
         //
+        $request->validate([
+            'text'=>['required','max:1000'],
+        ]);
+
+        Comment::create(['user_id'=>auth()->user()->id,'post_id'=>$post->id,'text'=>$text]);
     }
 
     /**

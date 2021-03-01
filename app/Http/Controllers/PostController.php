@@ -29,7 +29,7 @@ class PostController
     public function create()
     {
         //
-        dd('dsaasd');
+        // dd('dsaasd');
         return view('posts.create');
     }
 
@@ -93,11 +93,12 @@ class PostController
         $request->validate([
             'caption'=>['required','max:255'],
             'description'=>['required'],
-            'img'=>['file',]
+            'img'=>['sometimes','mimes:png,jpg']
         ]);
 
         if(isset($request['img'])){
-
+            $img=$request->file('img');
+            dd($img);
         }
     }
 

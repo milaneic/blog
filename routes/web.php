@@ -70,4 +70,8 @@ Route::middleware(['auth', 'role'])->prefix('admin/')->group(function () {
         Route::GET('roles/edit/{role}','RoleController@edit')->name('roles.edit');
         Route::PATCH('roles/update/{role}','RoleController@update')->name('roles.update');
         Route::DELETE('roles/delete/{role}','RoleController@destroy')->name('roles.destroy');
+
+        //Routes for categories
+        Route::GET('categories/create','CategoryController@create')->name('categories.create');
+        Route::POST('categories/store','CategoryController@store')->name('categories.store');
 });
