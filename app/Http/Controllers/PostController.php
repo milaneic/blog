@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Category;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PostController extends HomeController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,12 @@ class PostController extends Controller
     {
         //
         //dd(Post::all());
-        return view('home',['posts'=>Post::paginate(10)]);
+        //return view('home',['posts'=>Post::paginate(10)]);
+        $this->data['categories']=Category::all();
+        $this->data['posts']=Post::paginate(10);
+        //dd(Post::all());
+        //dd($this->data);
+        return view('index',$this->data);
     }
 
     /**
@@ -95,7 +101,7 @@ class PostController extends Controller
         ]);
 
         if(isset($request['img'])){
-            
+
         }
     }
 

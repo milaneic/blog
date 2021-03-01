@@ -50,6 +50,10 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function logs(){
+        return $this->hasMany(Log::class);
+    }
+
     public function hasRole()
     {
        if($this->role->name="Admin")
