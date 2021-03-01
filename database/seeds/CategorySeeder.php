@@ -22,13 +22,13 @@ class CategorySeeder extends Seeder
             $cat=Category::create(
                 [
                     'name'=>$cat,
-                    'description'=>$faker->sentence(10,true)
-
+                    'description'=>$faker->sentence(10,true),
+                    'img'=>'right1.jpg'
                 ]
-                
+
             );
 
-            for ($i=0; $i < 25; $i++) { 
+            for ($i=0; $i < 25; $i++) {
                 $post=Post::create([
                     'caption'=>$faker->word,
                     'description'=>$faker->text,
