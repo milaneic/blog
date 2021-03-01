@@ -25,6 +25,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        return view('admin.categories.create');
     }
 
     /**
@@ -36,6 +37,17 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+        $input=$request->validate([
+            'name'=>['required','string','max:255'],
+            'text'=>['required','text'],
+            'img'=>['required','mimes:png,jpg'],
+        ]);
+
+        Category::create($input);
+        session()->flash('message','You have successfuly created a category.');
+        session()->flash('alert-class','alert-success');
+        return redirect()->routes('categories.index');
+        
     }
 
     /**

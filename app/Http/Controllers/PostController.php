@@ -6,7 +6,7 @@ use App\Post;
 use App\Category;
 use Illuminate\Http\Request;
 
-class PostController extends HomeController
+class PostController
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +16,8 @@ class PostController extends HomeController
     public function index()
     {
         //
-        //dd(Post::all());
-        //return view('home',['posts'=>Post::paginate(10)]);
         $this->data['categories']=Category::all();
         $this->data['posts']=Post::paginate(10);
-        //dd(Post::all());
-        //dd($this->data);
         return view('index',$this->data);
     }
 
@@ -33,7 +29,7 @@ class PostController extends HomeController
     public function create()
     {
         //
-        dd('dsaasd');
+        // dd('dsaasd');
         return view('posts.create');
     }
 
@@ -97,11 +93,12 @@ class PostController extends HomeController
         $request->validate([
             'caption'=>['required','max:255'],
             'description'=>['required'],
-            'img'=>['file',]
+            'img'=>['sometimes','mimes:png,jpg']
         ]);
 
         if(isset($request['img'])){
-
+            $img=$request->file('img');
+            dd($img);
         }
     }
 

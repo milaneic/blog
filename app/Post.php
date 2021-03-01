@@ -13,7 +13,7 @@ class Post extends Model
     ];
 
     public function categories(){
-        return $this->BelongsToMany(Category::class);
+        return $this->BelongsToMany(Category::class,'category_post');
     }
 
     public function user(){
@@ -23,4 +23,5 @@ class Post extends Model
     public function comments(){
         return $this->hasMany(Comment::class);
     }
+
 }

@@ -1,11 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.layout')
 @section('content')
 <div class="container mt-5 mb-5">
-    <form method="POST" action="{{ route('users.update',$user) }}">
+    <form method="POST" action="{{ route('users.update',$user) }}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
-        
-    
+        <x-alert></x-alert>
+        <div class="form-group">
+            <label for="image">Avatar:</label><br>
+            <input type="file" name="avatar"  id="avatar" class="form-file" multiple="false">
+        </div>
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" name="name" value="{{ $user->name }}">
@@ -15,6 +18,18 @@
             <label for="email">Email</label>
             <input type="email" name="email" value="{{ $user->email }}">
         </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="" placeholder="Input your new password ">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password confirmation:</label>
+            <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password">
+
+        </div>
+
         <div class="form-group">
             <label for="role_id">Role</label>
             <select name="role_id" id="">
@@ -27,7 +42,8 @@
                 @endforeach
             </select>
         </div>
-     
+        
+
         <input type="submit" value="UPDATE">
         </form>
 
