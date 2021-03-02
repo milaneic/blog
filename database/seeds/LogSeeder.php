@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class LogSeeder extends Seeder
+class   LogSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -25,7 +25,7 @@ class LogSeeder extends Seeder
 
         foreach($Array as $a){
             DB::table('logs_types')->insert(['slug'=>$a['slug'],'name'=>$a['name']]);
-            
+
         }
 
     }

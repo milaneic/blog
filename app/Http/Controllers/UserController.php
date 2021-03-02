@@ -98,12 +98,12 @@ class UserController extends Controller
         // if($input['password']!=null){
         //     $user->password=Hash::make($input['password']);
         // }
-    
+
             session()->flash('message','User has been successfuly updated!');
             session()->flash('alert-class','alert-success');
-       
+
             session()->flash('message','You have not changed a user!');
-        
+
         return redirect()->route('users.edit',$user);
     }
 
@@ -119,5 +119,9 @@ class UserController extends Controller
         $user->delete();
         session()->flash('message','User has been deleted!');
         return redirect()->route('users.index');
+    }
+
+    public function home(){
+        return view('admin.home');
     }
 }

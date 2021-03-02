@@ -18,6 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PostSeeder::class);
         $this->call(CategoriesPostsSeeder::class);
         $this->call(CommentSeeder::class);
-        $this->call(LogSeeder::class);
+       // $this->call(LogSeeder::class);
     }
 }

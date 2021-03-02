@@ -37,6 +37,7 @@ Route::POST('posts/store','PostController@store')->name('posts.store');
 
 //Temporary
 Route::get('categories','CategoryController@index')->name('categories.index');
+Route::get('categories/create','CategoryController@create')->name('categories.create');
 
 
 //Routes that can only admins and its owners use
@@ -52,6 +53,7 @@ Route::PATCH('users/{user}','UserController@update')->middleware(['auth','role',
 
 Route::middleware(['auth', 'role'])->prefix('admin/')->group(function () {
 
+        Route::GET('home','UserController@home')->name('users.home');
         //Users
         Route::GET('/users','UserController@index')->name('users.index');
         Route::DELETE('/users/{user}','UserController@destroy')->name('users.delete');

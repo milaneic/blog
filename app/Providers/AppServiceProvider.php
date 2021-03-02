@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //TODO pre pustanje projekta zakomentarisati da ne bi pravilo problem 
-        $menu=DB::table('menus')->get();
-        View::share('menu', $menu);
+        //TODO pre pustanje projekta zakomentarisati da ne bi pravilo problem
+         $menu=DB::table('menus')->get();
+         View::share('menu', $menu);
     }
 }
