@@ -17,11 +17,10 @@
         @endif
     value="{{ $category->id }}" id="">
     @endforeach
-
     <label for="description">Description</label><br>
-    <textarea name="description" class="single-textarea" value="{{ $post->description }}" id="" cols="30" rows="10">{{ $category->description  }}</textarea><br>
+    <textarea name="description" class="single-textarea" id="" cols="30" rows="10">{{ $post->description  }}</textarea><br>
     <label for="text">Text</label><br>
-    <textarea name="text" class="single-textarea" value="{{ $post->text }}"  id="" cols="30" rows="20">{{ $category->text  }}</textarea>
+    <textarea name="text" class="single-textarea"  id="" cols="30" rows="20">{{ $post->text  }}</textarea>
     <input type="submit" value="Create a post" class="genric-btn primary">
 </form>
 </div>
