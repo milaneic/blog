@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Log;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -48,7 +50,7 @@ class CategoryController extends Controller
             $img->store('images/categories','public');
             $input['img']='storage/images/categories/'.$img->hashName();
             Category::create($input);
-            
+            Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->select('id')->where('slug','created_category')->first()]);
             session()->flash('message','Category has been successfuly created!');
             session()->flash('alert-class','alert-success');
             return redirect()->route('categories.index');
@@ -90,7 +92,7 @@ class CategoryController extends Controller
         public function update(Request $request, Category $category)
         {
             //
-            dd($category);
+            //dd($category);
             $input=$request->validate([
                 'name'=>['required','string','max:255'],
                 'description'=>['required','max:1000'],
@@ -107,9 +109,9 @@ class CategoryController extends Controller
                
                 $category->name=$input['name'];
                 $category->description=$input['description'];
-                // dd($category->isDirty());
                 if($category->isDirty()){ 
                    $category->update();
+                   Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->select('id')->where('slug','updated_category')->first()]);
                     session()->flash('message','Category has been successfuly updated!');
                     session()->flash('alert-class','alert-success');
                     
@@ -117,7 +119,7 @@ class CategoryController extends Controller
                     session()->flash('message','You didnot change anything!');
                 }
 
-                return redirect()->route('categories.index');
+                return redirect()->route('categories.edit',$category);
                 
             }
             
@@ -131,6 +133,7 @@ class CategoryController extends Controller
             {
                 //
                 $category->delete();
+                Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->select('id')->where('slug','deleted_category')->first()]);
                 session()->flash('message','A category has been successfuly deleted!');
                 session()->flash('alert-class','alert-success');
                 return redirect()->route('categories.index');

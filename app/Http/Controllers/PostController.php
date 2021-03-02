@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\Category;
 use Illuminate\Http\Request;
+use App\Log;
+use Illuminate\Support\Facades\DB;
 
 class PostController
 {
@@ -29,7 +31,7 @@ class PostController
     public function create()
     {
         //
-        return view('posts.create');
+        return view('posts.create',['categories'=>Category::all()]);
     }
 
     /**
@@ -41,17 +43,38 @@ class PostController
     public function store(Request $request)
     {
         //
+        //dd($request->all());
         $inputs=$request->validate([
             'caption'=>['string','max:255','required'],
-            'description'=>['text','required'],
+            'description'=>['string','required'],
+            'text'=>['string','required'],
+            'categories'=>['required','min:1'],
             'img'=>['mimes:jpeg,jpg,png,gif','required']
         ]);
-        Post::create([
+        $img=$request->file('img');
+        $img->store('images/post','public');
+        
+        // dd(auth()->user());
+        $post=Post::create([
             'caption'=>$inputs['caption'],
-            'description'=>$inputs['caption'],
-            'description'=>['text','required'],
-            'img'=>['mimes:jpeg,jpg,png,gif']
+            'description'=>$inputs['description'],
+            'text'=>$inputs['text'],
+            'img'=>'images/post/'.$img->hashName(),
+            'user_id'=>auth()->user()->id,
         ]);
+
+        $categories=Category::findMany($inputs['categories']);
+        
+        foreach ($categories as $category) {
+            $post->categories()->attach($category);
+        }
+
+        Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','created_post')->first()->id]);
+        session()->flash('message','You have successfuly created a post!');
+        session()->flash('alert-class','alert-success');
+        return redirect()->route('posts.index');
+
+
     }
 
     /**
@@ -75,7 +98,7 @@ class PostController
     public function edit(Post $post)
     {
         //
-        return view('posts.edit',['post'=>$post]);
+        return view('posts.edit',['post'=>$post,'categories'=>Category::all(),'belongs'=>DB::table('category_post')->select('category_id')->where('post_id',$post->id)->get()->toArray()]);
     }
 
     /**
@@ -89,15 +112,31 @@ class PostController
     {
         //
 
-        $request->validate([
+        $input=$request->validate([
             'caption'=>['required','max:255'],
             'description'=>['required'],
-            'img'=>['file',]
+            'img'=>['sometimes','mimes:png,jpg']
         ]);
 
-        if(isset($request['img'])){
-
+        if(isset($request['img'])){ 
+            $img=$request['img'];
+            $img->store('images/post','public');
+            $post->img='images/post'.$img->hashName();
         }
+
+        $post->caption=$input['caption'];
+        $post->description=$input['description'];
+        if($post->isDirty()){
+            $post->save();
+            Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','updated_post')->first()->id]);
+            session()->flash('message','You have successfuly updated a post!');
+            session()->flash('alert-class','alert-success');
+       
+        }else{
+            session()->flash('message','You didnot change anything!');
+        }
+        return redirect()->route('posts.index');
+
     }
 
     /**
@@ -110,6 +149,7 @@ class PostController
     {
         //
         $post->delete();
+        Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','deleted_post')->first()->id]);
         session()->flash('message','Post is successfuly deleted!');
         return redirect()->back();
     }

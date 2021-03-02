@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
-
-<h1>All users</h1>
+<div class="container-max mt-5 mb-3">
+<h1>All users</h1> 
 <table class="table table-striped text-center">
     <thead>
         <th>#</th>
@@ -18,28 +18,29 @@
     <tbody>
         @foreach ($users as $item)
         <tr>
-            <td>{{ $item->id }}</td>
-            <td>{{ $item->name }}</td>
-            <td>{{ $item->email }}</td>
-            <td>{{ $item->role->name }}</td>
+            <td class="text-center">{{ $item->id }}</td>
+            <td class="text-center">{{ $item->name }}</td>
+            <td class="text-center">{{ $item->email }}</td>
+            <td class="text-center">{{ $item->role->name }}</td>
             @if ($item->verified_at!=null)
-            <td><input type="checkbox" name="" checked readonly id=""></td>
+            <td class="text-center"><input type="checkbox" name="" checked readonly id=""></td>
             @else
-            <td><input type="checkbox" name=""  readonly id=""></td>
+            <td class="text-center"><input type="checkbox" name=""  readonly id=""></td>
             @endif
-            <td>{{ $item->last_login }}</td>
-            <td>{{ $item->created_at }}</td>
-            <td>{{ $item->updated_at }}</td>
-            <td><a href="{{ route('users.edit',$item) }}">Update</a></td>
-            <td>
+            <td class="text-center">{{ $item->last_login }}</td>
+            <td class="text-center">{{ $item->created_at }}</td>
+            <td class="text-center">{{ $item->updated_at }}</td>
+            <td class="text-center"><a href="{{ route('users.edit',$item) }}" class="genric-btn primary">Update</a></td>
+            <td class="text-center">
                 <form action="{{ route('users.delete',$item) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <input type="submit" value="DELETE">
+                    <input type="submit" class="genric-btn danger" value="DELETE">
                 </form>
             </td>
         </tr>   
         @endforeach
     </tbody>
 </table>
+</div>
 @endsection
