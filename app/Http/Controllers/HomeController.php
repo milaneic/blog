@@ -17,7 +17,7 @@ class HomeController extends Controller
     public function __construct()
     {
         // $this->data['menu']= \DB::table('menus')->get();
-        $this->middleware('auth');
+        //$this->middleware('auth');
 
     }
 
@@ -29,5 +29,15 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function contact()
+    {
+        return view('contact');
+    }
+
+    public function test()
+    {
+        return dd(DB::table('logs_types')->where('slug','register')->pluck('id'));
     }
 }

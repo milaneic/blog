@@ -17,7 +17,7 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('caption',255);
             $table->text('description',255);
-            $table->string('img',255);
+            $table->string('img',255)->nullable();
             $table->text('text');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

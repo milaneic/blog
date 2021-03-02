@@ -15,13 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('posts.index');
-})->name('home');
+Route::get('/','HomeController@index')->name('home');
+Route::GET('contact','HomeController@contact')->name('contact');
+Route::GET('test','HomeController@test')->name('test');
 
-Route::GET('contact',function(){
-    return view('contact');
-})->name('contact');
 
 
 
@@ -30,14 +27,10 @@ Auth::routes();
 
 //Route for posts
 Route::GET('posts','PostController@index')->name('posts.index');
-Route::GET('posts/{post}','PostController@show')->name('posts.show');
 Route::GET('posts/create','PostController@create')->name('posts.create');
 Route::POST('posts/store','PostController@store')->name('posts.store');
+Route::GET('posts/{post}','PostController@show')->name('posts.show');
 // Route::PATCH('posts/update','PostController@update')->name('posts.update');
-
-//Temporary
-Route::get('categories','CategoryController@index')->name('categories.index');
-Route::get('categories/create','CategoryController@create')->name('categories.create');
 
 
 //Routes that can only admins and its owners use
@@ -47,7 +40,7 @@ Route::DELETE('posts/{post}','PostController@destroy')->middleware(['auth','role
 
 Route::GET('users/{user}','UserController@show')->middleware(['auth','role','can:view,user'])->name('users.show');
 Route::GET('users/edit/{user}','UserController@edit')->middleware(['auth','role','can:view,user'])->name('users.edit');
-Route::PATCH('users/{user}','UserController@update')->middleware(['auth','role','can:update,user'])->name('users.update');
+Route::PATCH('users/update/{user}','UserController@update')->middleware(['auth','role','can:update,user'])->name('users.update');
 //END
 
 
@@ -66,10 +59,21 @@ Route::middleware(['auth', 'role'])->prefix('admin/')->group(function () {
 
         //Route for roles
         Route::GET('roles','RoleController@index')->name('roles.index');
-        Route::GET('roles/{role}','RoleController@show')->name('roles.show');
         Route::GET('roles/create','RoleController@create')->name('roles.create');
-        Route::POST('roles/create','RoleController@store')->name('roles.store');
+        Route::POST('roles/store','RoleController@store')->name('roles.store');
         Route::GET('roles/edit/{role}','RoleController@edit')->name('roles.edit');
         Route::PATCH('roles/update/{role}','RoleController@update')->name('roles.update');
         Route::DELETE('roles/delete/{role}','RoleController@destroy')->name('roles.destroy');
+        Route::GET('roles/{role}','RoleController@show')->name('roles.show');
+
+        //Route for categories
+        Route::GET('categories','CategoryController@index')->name('categories.index');
+        Route::GET('categories/create','CategoryController@create')->name('categories.create');
+        Route::POST('categories/store','CategoryController@store')->name('categories.store');
+        Route::GET('categories/show/{category}','CategoryController@show')->name('categories.show');
+        Route::GET('categories/edit/{category}','CategoryController@edit')->name('categories.edit');
+        Route::PATCH('categories/update/{category}','CategoryController@update')->name('categories.update');
+        Route::DELETE('categories/delete/{category}','CategoryController@destroy')->name('categories.destroy');
+        
+
 });
