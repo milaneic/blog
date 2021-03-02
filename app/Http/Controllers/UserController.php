@@ -104,11 +104,12 @@ class UserController extends Controller
             
             $user->name=$input['name'];
             $user->email=$input['email'];
+            $user->role_id=$input['role_id'];
             //TODO role attach
             //dd($user->isDirty());
             if($user->isDirty()){ 
                 $user->save();
-                Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->select('id')->where('slug','updated_user')->first()]);
+                Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','updated_user')->first()->id]);
                 session()->flash('message','User has been successfuly updated!');
                 session()->flash('alert-class','alert-success');
             }else{
@@ -127,7 +128,7 @@ class UserController extends Controller
         {
             //
             $user->delete();
-            Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->select('id')->where('slug','deleted_user')->first()]);
+            Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','deleted_user')->first()->id]);
             session()->flash('message','User has been deleted!');
             session()->flash('alert-class','alert-success');
             return redirect()->route('users.index');

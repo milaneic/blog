@@ -42,6 +42,7 @@ class RoleController extends Controller
             'name'=>['string','max:255','required']
         ]);
         Role::create($input);
+        Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','created_role')->first()->id]);
         session()->flash('message','Role has been successfuly created.');
         session()->flash('alert-class','alert-success');
         return redirect()->route('roles.index');
@@ -90,7 +91,8 @@ class RoleController extends Controller
         $role->name=$input['name'];
         
         if ($role->isDirty()) {
-            $role->update();
+        $role->update();
+        Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','updated_role')->first()->id]);
         session()->flash('message','Role has been successfuly updated.');
         session()->flash('alert-class','alert-success');
         }else{
@@ -111,6 +113,7 @@ class RoleController extends Controller
     {
         //
         $role->delete();
+        Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','deleted_role')->first()->id]);
         session()->flash('message','Role has been successfuly deleted.');
         session()->flash('alert-class','alert-success');
         return redirect()->route('roles.index');

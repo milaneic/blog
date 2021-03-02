@@ -29,6 +29,7 @@ class LogSeeder extends Seeder
             array('slug'=>'updated_user','name'=>'Updated user'),
             array('slug'=>'deleted_user','name'=>'Deleted user'),
             array('slug'=>'comment','name'=>'Commented post'),
+            array('slug'=>'deleted_comment','name'=>'Deleted comment'),
         );
 
         foreach($Array as $a){

@@ -97,8 +97,12 @@ class PostController
      */
     public function edit(Post $post)
     {
-        //
-        return view('posts.edit',['post'=>$post,'categories'=>Category::all(),'belongs'=>DB::table('category_post')->select('category_id')->where('post_id',$post->id)->get()->toArray()]);
+        $belongs=array();
+        $a=DB::table('category_post')->select('category_id')->where('post_id',$post->id)->get()->toArray();
+        for ($i=0; $i <count($a) ; $i++) { 
+            array_push($belongs,$a[$i]->category_id);
+        }
+        return view('posts.edit',['post'=>$post,'categories'=>Category::all(),'belongs'=>$belongs]);
     }
 
     /**
@@ -149,7 +153,7 @@ class PostController
     {
         //
         $post->delete();
-        Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','deleted_post')->first()->id]);
+         Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','deleted_post')->first()->id]);
         session()->flash('message','Post is successfuly deleted!');
         return redirect()->back();
     }

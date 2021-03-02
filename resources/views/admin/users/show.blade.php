@@ -7,21 +7,21 @@
     
     
     @if ($user->avatar!=null)
-    <img src="{{ asset($user->avatar) }}" alt="Users avatar" class="rounded">
+    <img src="{{ asset($user->avatar) }}" alt="Users avatar" class="rounded" width="100px" height="100px">
     @endif
     
     <p>Name:</p>
-    <input type="text" value="{{ $user->name }}" class="single-input">
+    <input type="text" readonly value="{{ $user->name }}" class="single-input">
     <p>Email:</p>
-    <input type="text" value="{{ $user->email }}" class="single-input">
+    <input type="text" readonly value="{{ $user->email }}" class="single-input">
     <p>Role:</p>
-    <input type="text" value="{{ $user->role->name }}" class="single-input">
+    <input type="text" readonly value="{{ $user->role->name }}" class="single-input">
     <p>Email verified at:</p>
-    <input type="text" value="{{ $user->email_verified_at }}" class="single-input">
+    <input type="text" readonly value="{{ $user->email_verified_at }}" class="single-input">
     <p>Last login at:</p>
-    <input type="text" value="{{ $user->last_login }}" class="single-input">
+    <input type="text" readonly value="{{ $user->last_login }}" class="single-input">
     <p>Number of posts:</p>
-    <input type="text" value="{{ count($user->posts) }}" class="single-input">
+    <input type="text" readonly value="{{ count($user->posts) }}" class="single-input">
 
     <a href="{{ route('users.edit',$user) }}" class="genric-btn primary mt-3">Update a user</a>
 </div>

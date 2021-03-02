@@ -11,7 +11,7 @@
     <h1>{{$post->caption}}</h1>
     <h3>Categories:
     @foreach ($post->categories as $item)
-       {{$item->name}},
+       {{$item->name}}
     @endforeach    
     </h3>
 <img src="{{asset('storage/'.$post->img)}}" alt="" height="500px" width="500px">

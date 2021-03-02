@@ -9,14 +9,8 @@
     <label for="img">Caption</label><br>
     <input type="text" class="single-input mt-2" value="{{ $post->caption }}" name="caption" ><br>
     <label for="category_id">Category</label><br>
-    <label for="category_id">Category</label><br>
     @foreach ($categories as $category)
     <p>{{ $category->name }}</p>
-
-@php
-    dd(in_array($category->id,$belongs));
-@endphp
-
     <input type="checkbox" name="categories[]"
         @if (in_array($category->id,$belongs))
             checked
@@ -25,9 +19,9 @@
     @endforeach
 
     <label for="description">Description</label><br>
-    <textarea name="description" class="single-textarea" value="{{ $post->description }}" id="" cols="30" rows="10"></textarea><br>
+    <textarea name="description" class="single-textarea" value="{{ $post->description }}" id="" cols="30" rows="10">{{ $category->description  }}</textarea><br>
     <label for="text">Text</label><br>
-    <textarea name="text" class="single-textarea" value="{{ $post->text }}"  id="" cols="30" rows="20"></textarea>
+    <textarea name="text" class="single-textarea" value="{{ $post->text }}"  id="" cols="30" rows="20">{{ $category->text  }}</textarea>
     <input type="submit" value="Create a post" class="genric-btn primary">
 </form>
 </div>

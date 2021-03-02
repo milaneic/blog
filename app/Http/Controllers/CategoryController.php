@@ -50,7 +50,7 @@ class CategoryController extends Controller
             $img->store('images/categories','public');
             $input['img']='storage/images/categories/'.$img->hashName();
             Category::create($input);
-            Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->select('id')->where('slug','created_category')->first()]);
+            Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','created_category')->first()->id]);
             session()->flash('message','Category has been successfuly created!');
             session()->flash('alert-class','alert-success');
             return redirect()->route('categories.index');
@@ -111,7 +111,7 @@ class CategoryController extends Controller
                 $category->description=$input['description'];
                 if($category->isDirty()){ 
                    $category->update();
-                   Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->select('id')->where('slug','updated_category')->first()]);
+                   Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','updated_category')->first()->id]);
                     session()->flash('message','Category has been successfuly updated!');
                     session()->flash('alert-class','alert-success');
                     
@@ -133,7 +133,7 @@ class CategoryController extends Controller
             {
                 //
                 $category->delete();
-                Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->select('id')->where('slug','deleted_category')->first()]);
+                Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','deleted_category')->first()->id]);
                 session()->flash('message','A category has been successfuly deleted!');
                 session()->flash('alert-class','alert-success');
                 return redirect()->route('categories.index');
