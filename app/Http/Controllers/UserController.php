@@ -14,68 +14,68 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function index()
     {
         //
         return view('admin.users.index',['users'=>User::all()]);
     }
-
+    
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function create()
     {
         //
     }
-
+    
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    * Store a newly created resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
     public function store(Request $request)
     {
         //
     }
-
+    
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
+    * Display the specified resource.
+    *
+    * @param  \App\User  $user
+    * @return \Illuminate\Http\Response
+    */
     public function show(User $user)
     {
         //
-       return view('admin.users.show',['user'=>$user]);
+        return view('admin.users.show',['user'=>$user]);
     }
-
+    
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
+    * Show the form for editing the specified resource.
+    *
+    * @param  \App\User  $user
+    * @return \Illuminate\Http\Response
+    */
     public function edit(User $user)
     {
         //
         return view('admin.users.edit',['user'=>$user,'role'=>Role::all()]);
     }
-
+    
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  \App\User  $user
+    * @return \Illuminate\Http\Response
+    */
     public function update(Request $request, User $user)
     {
         //
@@ -86,38 +86,44 @@ class UserController extends Controller
             'password'=>['sometimes','min:8','confirmed'],
             'role_id'=>['required'],
             'avatar'=>['sometimes','mimes:jpeg,png,jpg,gif,svg']
-        ]);
-        dd($request->all());
-        $img=$request->file('avatar');
-        dd($img);
-        if($img!=null){
-            $image=$img->store('avatar/','public');
-            dd($image);
+            ]);
+            
+            $img=$request->file('avatar');
+            if($img!=null){
+                $img=$request->file('img');
+                $img->store('images/avatar','public');
+                $input['img']='storage/images/avatar/'.$img->hashName();
+                $user->avatar=$input['img'];
+            }
+
+            if($input['password']!=null){
+                $user->password=Hash::make($input['password']);
+            }
+            
+            $user->name=$input['name'];
+            $user->email=$input['email'];
+            if($user->isDirty()){
+                session()->flash('message','User has been successfuly updated!');
+                session()->flash('alert-class','alert-success');
+                $user->save();
+            }else{
+                session()->flash('message','You have not changed a user!');
+            }
+            return redirect()->route('users.edit',$user);
         }
-
-        // if($input['password']!=null){
-        //     $user->password=Hash::make($input['password']);
-        // }
-    
-            session()->flash('message','User has been successfuly updated!');
-            session()->flash('alert-class','alert-success');
-       
-            session()->flash('message','You have not changed a user!');
         
-        return redirect()->route('users.edit',$user);
+        /**
+        * Remove the specified resource from storage.
+        *
+        * @param  \App\User  $user
+        * @return \Illuminate\Http\Response
+        */
+        public function destroy(User $user)
+        {
+            //
+            $user->delete();
+            session()->flash('message','User has been deleted!');
+            return redirect()->route('users.index');
+        }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
-        $user->delete();
-        session()->flash('message','User has been deleted!');
-        return redirect()->route('users.index');
-    }
-}
+    
