@@ -18,6 +18,7 @@ use Illuminate\Auth;
 
 Route::get('/','HomeController@index')->name('home');
 Route::GET('contact','HomeController@contact')->name('contact');
+Route::GET('test','HomeController@test')->name('test');
 
 
 
@@ -40,7 +41,7 @@ Route::DELETE('posts/{post}','PostController@destroy')->middleware(['auth','role
 
 Route::GET('users/{user}','UserController@show')->middleware(['auth','role','can:view,user'])->name('users.show');
 Route::GET('users/edit/{user}','UserController@edit')->middleware(['auth','role','can:view,user'])->name('users.edit');
-Route::PATCH('users/{user}','UserController@update')->middleware(['auth','role','can:update,user'])->name('users.update');
+Route::PATCH('users/update/{user}','UserController@update')->middleware(['auth','role','can:update,user'])->name('users.update');
 //END
 
 
@@ -69,11 +70,10 @@ Route::middleware(['auth', 'role'])->prefix('admin/')->group(function () {
         Route::GET('categories','CategoryController@index')->name('categories.index');
         Route::GET('categories/create','CategoryController@create')->name('categories.create');
         Route::POST('categories/store','CategoryController@store')->name('categories.store');
-        Route::GET('categories/{category}','CategoryController@show')->name('categories.show');
+        Route::GET('categories/show/{category}','CategoryController@show')->name('categories.show');
         Route::GET('categories/edit/{category}','CategoryController@edit')->name('categories.edit');
-        Route::PATCH('categories/update','CategoryController@update')->name('categories.update');
-       
-        Route::DELETE('categories/{category}','CategoryController@destroy')->name('categories.destroy');
+        Route::PATCH('categories/update/{category}','CategoryController@update')->name('categories.update');
+        Route::DELETE('categories/delete/{category}','CategoryController@destroy')->name('categories.destroy');
         
 
 });

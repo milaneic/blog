@@ -4,6 +4,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use App\User;
 
 class Log extends Model
@@ -15,5 +16,10 @@ class Log extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function getNameType($id)
+    {
+        return DB::table('logs_types')->find($id)->name;
     }
 }

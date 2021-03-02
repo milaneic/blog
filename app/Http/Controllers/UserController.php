@@ -6,6 +6,8 @@ use App\User;
 use App\Post;
 use App\Role;
 use App\Comment;
+use App\Log;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 use Carbon\Carbon;
@@ -54,7 +56,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         //
-        return view('admin.users.show',['user'=>$user]);
+        return view('admin.users.show',['user'=>$user,'logs'=>Log::where('user_id',$user->id)->orderBy('id')->get()]);
     }
     
     /**
@@ -79,21 +81,21 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
-        //  dd($request->all());
+       //dd($request->all());
         $input=$request->validate([
             'name'=>['string','required'],
             'email'=>['email','required','unique:users,email,'.$user->id],
-            'password'=>['sometimes','min:8','confirmed'],
+            'password'=>['sometimes','nullable','min:8','confirmed'],
             'role_id'=>['required'],
             'avatar'=>['sometimes','mimes:jpeg,png,jpg,gif,svg']
             ]);
             
-            $img=$request->file('avatar');
-            if($img!=null){
-                $img=$request->file('img');
+          
+            if($request->file('avatar')!=null){
+                $img=$request->file('avatar');
                 $img->store('images/avatar','public');
-                $input['img']='storage/images/avatar/'.$img->hashName();
-                $user->avatar=$input['img'];
+                $input['avatar']='storage/images/avatar/'.$img->hashName();
+                $user->avatar=$input['avatar'];
             }
 
             if($input['password']!=null){
@@ -102,10 +104,13 @@ class UserController extends Controller
             
             $user->name=$input['name'];
             $user->email=$input['email'];
-            if($user->isDirty()){
+            //TODO role attach
+            //dd($user->isDirty());
+            if($user->isDirty()){ 
+                $user->save();
+                Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->select('id')->where('slug','updated_user')->first()]);
                 session()->flash('message','User has been successfuly updated!');
                 session()->flash('alert-class','alert-success');
-                $user->save();
             }else{
                 session()->flash('message','You have not changed a user!');
             }
@@ -122,7 +127,9 @@ class UserController extends Controller
         {
             //
             $user->delete();
+            Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->select('id')->where('slug','deleted_user')->first()]);
             session()->flash('message','User has been deleted!');
+            session()->flash('alert-class','alert-success');
             return redirect()->route('users.index');
         }
     }
