@@ -28,7 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('index');
     }
 
     public function contact()
@@ -39,5 +39,9 @@ class HomeController extends Controller
     public function test()
     {
         return dd(DB::table('logs_types')->where('slug','register')->pluck('id'));
+    }
+
+    public function author(){
+        return view('author');
     }
 }

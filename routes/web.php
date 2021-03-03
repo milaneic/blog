@@ -18,9 +18,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/','HomeController@index')->name('home');
 Route::GET('contact','HomeController@contact')->name('contact');
 Route::GET('test','HomeController@test')->name('test');
+Route::GET('author','HomeController@author')->name('author');
+Route::GET('/index2','PostController@index2')->name('index2');
 
-
-
+//Filers
+Route::GET('posts/filter','PostController@filter')->name('posts.filter');
+Route::GET('posts/filters','PostController@filters')->name('posts.filters');
+Route::GET('posts/filterd','PostController@filterd')->name('posts.filterd');
 
 // Auth::routes(['verify'=>true]);
 Auth::routes();
@@ -74,6 +78,6 @@ Route::middleware(['auth', 'role'])->prefix('admin/')->group(function () {
         Route::GET('categories/edit/{category}','CategoryController@edit')->name('categories.edit');
         Route::PATCH('categories/update/{category}','CategoryController@update')->name('categories.update');
         Route::DELETE('categories/delete/{category}','CategoryController@destroy')->name('categories.destroy');
-        
+
 
 });

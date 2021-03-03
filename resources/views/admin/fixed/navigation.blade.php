@@ -156,10 +156,19 @@
                             </a>
                             <ul class="sidebar-nav">
                                 <li>
-                                    <a href="static-tables.html"> Static Tables </a>
+                                    <a href=" {{ route('users.index')}} "> Users  </a>
                                 </li>
                                 <li>
-                                    <a href="responsive-tables.html"> Responsive Tables </a>
+                                    <a href="{{ route('posts.index')}}"> Posts </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('categories.index')}}"> Categories </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('comments.index')}}"> Comments  </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('roles.index')}}"> Roles  </a>
                                 </li>
                             </ul>
                         </li>

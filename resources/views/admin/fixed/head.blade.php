@@ -9,19 +9,20 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.html">
     <!-- Place favicon.ico in the root directory -->
     <link rel="stylesheet" href="{{ asset('admin/css/vendor.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/app.css') }}">
     <!-- Theme initialization -->
     <script>
-        var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
-            {};
-        var themeName = themeSettings.themeName || '';
-        if (themeName)
-        {
+        //var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+         //   {};
+       // var themeName = themeSettings.themeName || '';
+       // if (themeName)
+        //{
             //document.write('<link rel="stylesheet" id="theme-style" href="{}">');
 
-        }
-        else
-        {
-            document.write('<link rel="stylesheet" id="theme-style" href="{{ asset('admin/css/app.css') }}">');
-        }
+        //}
+        //else
+        //{
+        //    document.write('<link rel="stylesheet" id="theme-style" href="">');
+        //}
     </script>
 </head>

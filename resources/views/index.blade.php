@@ -36,7 +36,7 @@
                             </div>
 
                             <div class="trending-bottom">
-                                <div class="row">
+                                <div id="gpc" class="row">
                                     @foreach($posts as $post)
                                         <div class="col-lg-4">
                                             <div class="single-bottom mb-35">
@@ -61,7 +61,7 @@
                                         <img src="{{ asset('assets/img/trending/'.$category->img) }}" alt="">
                                     </div>
                                     <div class="trand-right-cap">
-                                        <span class="color1">{{ $category->name }}</span>
+                                        <span class="color1"><a class="cat" href="#" data-id="{{ $category->id }}">{{ $category->name }}</a></span>
                                         <h4><a href="details.html">{{ $category->description }}</a></h4>
                                     </div>
                                 </div>
