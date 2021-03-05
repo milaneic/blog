@@ -1,6 +1,19 @@
 $(document).ready(function(){
 
-    $(document).on('click','.cat',function(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': token
+        }
+    });
+
+    $(".page-link").click(loadMoreProducts);
+    $(".categories").click(filterAndSort);
+    $("#searcha").keyup(filterAndSort);
+    $("#ddlo").change(filterAndSort);
+    $("#btnComm").click(addComm);
+
+    /*$(document).on('click','.cat',function(e){
+        e.preventDefault();
         let id=$(this).data('id');
 
         $.ajax({
@@ -50,9 +63,85 @@ $(document).ready(function(){
                 getPostCategory(data);
             }
         })
-    })
+    }) */
 
 })
+
+function addComm(){
+
+}
+
+function loadMoreProducts(e){
+
+    categories = [];
+    $.each($("input[name='categories']:checked"), function(){
+        categories.push($(this).val());
+    });
+    let key= $('#searcha').val();
+    let d = document.getElementById("ddlo");
+    let ddl = d.options[d.selectedIndex].value;
+    e.preventDefault();
+    let page = $(this).data('page');
+    getPosts(page, categories, key, ddl);
+
+}
+
+function filterAndSort(){
+
+    categories = [];
+    $.each($("input[name='categories']:checked"), function(){
+        categories.push($(this).val());
+    });
+    let key= $('#searcha').val();
+    let d = document.getElementById("ddlo");
+    let ddl = d.options[d.selectedIndex].value;
+
+    getPosts(1, categories, key, ddl);
+
+}
+
+function getPosts(page, categories, key, ddl){
+    const caller = arguments.callee.caller.name;
+    $.ajax({
+        url: "/posts/filtera",
+        method: "get",
+        data: {
+            page,
+            categories,
+            key,
+            ddl
+        },
+        dataType: "json",
+        success: function (response) {
+            getPostCategory(response.data);
+            console.log(response.data)
+            if(caller == 'filterAndSort'){
+                changePagination(response.last_page, response.current_page);
+            }
+            if(caller == 'loadMoreProducts'){
+                changeActivePageLink(response.current_page);
+            }
+        }
+    });
+}
+function changePagination(totalLinks, currentPage){
+    let html = "";
+    for(let i = 1; i <= totalLinks; i++){
+        if(i != currentPage){
+            html += `<li class="page-item"><a class="page-link" id="link${i}" data-page="${i}" href="#">${i}</a></li>`;
+        }else{
+            html += `<li class="page-item active"><a class="page-link" id = "link${i}" data-page="${i}" href="#">${i}</a></li>`;
+        }
+    }
+    $(".pagination").html(html);
+    $(".page-link").click(loadMoreProducts);
+}
+
+function changeActivePageLink(currentPage){
+    $('.page-item').removeClass('active');
+    $('#link' + currentPage).parent().addClass('active');
+}
+
 function getPostCategory(data){
     let html="";
     for(let post of data){
@@ -61,7 +150,7 @@ function getPostCategory(data){
                             <div class="blog_item_img">
                                 <img class="card-img rounded-0" src="assets/img/blog/${post.img}" alt="${post.img }">
                                 <a href="#" class="blog_item_date">
-                                    <h3>${post.created_at}</h3>
+                                    <h3> ${post.created_at}</h3>
                                     <p></p>
                                 </a>
                             </div>

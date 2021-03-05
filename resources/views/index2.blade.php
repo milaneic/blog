@@ -28,7 +28,8 @@
                             </div>
                         </article>
                         @endforeach
-                        <nav class="blog-pagination justify-content-center d-flex">
+
+                        <!--<nav class="blog-pagination justify-content-center d-flex">
                             <ul class="pagination">
                                 <li class="page-item">
                                     <a href="#" class="page-link" aria-label="Previous">
@@ -47,13 +48,15 @@
                                     </a>
                                 </li>
                             </ul>
-                        </nav>
+                        </nav>-->
                     </div>
+                    {{ $posts->links('vendor.pagination.bootstrap-4') }}
                 </div>
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
                         <aside class="single_sidebar_widget search_widget">
                             <form action="#">
+                                @csrf
                                 <div class="form-group">
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" id="searcha" placeholder='Search Keyword' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
@@ -84,13 +87,16 @@
                             <h4 class="widget_title">Category</h4>
                             <ul class="list cat-list">
                                 @foreach($categories as $category)
-                                <li>
-                                    <a href="#" class="d-flex cat" data-id="{{ $category->id }}">
-                                        <p>{{ $category->name }}</p>
-                                        <p>(37)</p>
-                                    </a>
-                                </li>
+                                    <li class="list-group-i        tem">
+                                        <input type="checkbox" name="categories" class="categories" id="{{ $category->id }}" value="{{$category->id}}"/> {{ $category->name }}
+                                    </li>
                                 @endforeach
+                                   <!-- <li>
+                                        <a href="#" class="d-flex cat" data-id="">
+                                            <p></p>
+                                            <p>(37)</p>
+                                        </a>
+                                    </li>-->
                             </ul>
                         </aside>
                         <aside class="single_sidebar_widget popular_post_widget">

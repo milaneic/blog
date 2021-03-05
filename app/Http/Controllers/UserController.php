@@ -108,7 +108,7 @@ class UserController extends Controller
             //dd($user->isDirty());
             if($user->isDirty()){
                 $user->save();
-                Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->select('id')->where('slug','updated_user')->first()]);
+                Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','updated_user')->first()->id]);
                 session()->flash('message','User has been successfuly updated!');
                 session()->flash('alert-class','alert-success');
             }else{

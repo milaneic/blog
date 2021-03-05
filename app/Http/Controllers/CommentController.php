@@ -85,4 +85,9 @@ class CommentController extends Controller
         session()->flash('message','Comment is successfuly deleted!');
         return redirect()->back();
     }
+
+    public function insertComm(){
+
+
+    }
 }
