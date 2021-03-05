@@ -2,7 +2,7 @@
 
 use App\Comment;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Auth;
+// use Illuminate\Auth;
 
 
 /*
@@ -19,9 +19,13 @@ use Illuminate\Auth;
 Route::get('/','HomeController@index')->name('home');
 Route::GET('contact','HomeController@contact')->name('contact');
 Route::GET('test','HomeController@test')->name('test');
+Route::GET('author','HomeController@author')->name('author');
+Route::GET('/index2','PostController@index2')->name('index2');
 
-
-
+//Filers
+Route::GET('posts/filter','PostController@filter')->name('posts.filter');
+Route::GET('posts/filters','PostController@filters')->name('posts.filters');
+Route::GET('posts/filterd','PostController@filterd')->name('posts.filterd');
 
 // Auth::routes(['verify'=>true]);
 Auth::routes();
@@ -47,6 +51,7 @@ Route::PATCH('users/update/{user}','UserController@update')->middleware(['auth',
 
 Route::middleware(['auth', 'role'])->prefix('admin/')->group(function () {
 
+        Route::GET('home','UserController@home')->name('users.home');
         //Users
         Route::GET('/users','UserController@index')->name('users.index');
         Route::DELETE('/users/{user}','UserController@destroy')->name('users.delete');
@@ -74,6 +79,6 @@ Route::middleware(['auth', 'role'])->prefix('admin/')->group(function () {
         Route::GET('categories/edit/{category}','CategoryController@edit')->name('categories.edit');
         Route::PATCH('categories/update/{category}','CategoryController@update')->name('categories.update');
         Route::DELETE('categories/delete/{category}','CategoryController@destroy')->name('categories.destroy');
-        
+
 
 });

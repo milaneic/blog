@@ -25,7 +25,7 @@ class UserController extends Controller
         //
         return view('admin.users.index',['users'=>User::all()]);
     }
-    
+
     /**
     * Show the form for creating a new resource.
     *
@@ -35,7 +35,7 @@ class UserController extends Controller
     {
         //
     }
-    
+
     /**
     * Store a newly created resource in storage.
     *
@@ -46,7 +46,7 @@ class UserController extends Controller
     {
         //
     }
-    
+
     /**
     * Display the specified resource.
     *
@@ -58,7 +58,7 @@ class UserController extends Controller
         //
         return view('admin.users.show',['user'=>$user,'logs'=>Log::where('user_id',$user->id)->orderBy('id')->get()]);
     }
-    
+
     /**
     * Show the form for editing the specified resource.
     *
@@ -70,7 +70,7 @@ class UserController extends Controller
         //
         return view('admin.users.edit',['user'=>$user,'role'=>Role::all()]);
     }
-    
+
     /**
     * Update the specified resource in storage.
     *
@@ -89,8 +89,8 @@ class UserController extends Controller
             'role_id'=>['required'],
             'avatar'=>['sometimes','mimes:jpeg,png,jpg,gif,svg']
             ]);
-            
-          
+
+
             if($request->file('avatar')!=null){
                 $img=$request->file('avatar');
                 $img->store('images/avatar','public');
@@ -101,13 +101,13 @@ class UserController extends Controller
             if($input['password']!=null){
                 $user->password=Hash::make($input['password']);
             }
-            
+
             $user->name=$input['name'];
             $user->email=$input['email'];
             $user->role_id=$input['role_id'];
             //TODO role attach
             //dd($user->isDirty());
-            if($user->isDirty()){ 
+            if($user->isDirty()){
                 $user->save();
                 Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','updated_user')->first()->id]);
                 session()->flash('message','User has been successfuly updated!');
@@ -117,7 +117,7 @@ class UserController extends Controller
             }
             return redirect()->route('users.edit',$user);
         }
-        
+
         /**
         * Remove the specified resource from storage.
         *
@@ -133,5 +133,9 @@ class UserController extends Controller
             session()->flash('alert-class','alert-success');
             return redirect()->route('users.index');
         }
+
+        public function home(){
+            return view('admin.home');
+        }
     }
-    
+

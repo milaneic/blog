@@ -23,7 +23,14 @@ class PostController
         return view('index',$this->data);
     }
 
+    public function index2()
+    {
+        $this->data['categories']=Category::all();
+        $this->data['posts']=Post::paginate(10);
+        return view('index2',$this->data);
+    }
     /**
+     *
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -53,7 +60,7 @@ class PostController
         ]);
         $img=$request->file('img');
         $img->store('images/post','public');
-        
+
         // dd(auth()->user());
         $post=Post::create([
             'caption'=>$inputs['caption'],
@@ -64,7 +71,7 @@ class PostController
         ]);
 
         $categories=Category::findMany($inputs['categories']);
-        
+
         foreach ($categories as $category) {
             $post->categories()->attach($category);
         }
@@ -122,7 +129,7 @@ class PostController
             'img'=>['sometimes','mimes:png,jpg']
         ]);
 
-        if(isset($request['img'])){ 
+        if(isset($request['img'])){
             $img=$request['img'];
             $img->store('images/post','public');
             $post->img='images/post'.$img->hashName();
@@ -135,7 +142,7 @@ class PostController
             Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','updated_post')->first()->id]);
             session()->flash('message','You have successfuly updated a post!');
             session()->flash('alert-class','alert-success');
-       
+
         }else{
             session()->flash('message','You didnot change anything!');
         }
@@ -156,5 +163,26 @@ class PostController
          Log::create(['user_id'=>auth()->user()->id,'logs_type_id'=>DB::table('logs_types')->where('slug','deleted_post')->first()->id]);
         session()->flash('message','Post is successfuly deleted!');
         return redirect()->back();
+    }
+
+    public function filter(Request $request)
+    {
+        $id=$request->id;
+        $posts=POST::where('id',$id)->get();
+        return response()->json($posts);
+    }
+
+    public function filters(Request $request)
+    {
+        $key=$request->key;
+        $posts=POST::where('caption','like','%'.$key.'%')->get();
+        return response()->json($posts);
+    }
+
+    public function filterd(Request $request)
+    {
+        $a=$request->a;
+        $posts=POST::orderBy('caption',$a)->get();
+        return response()->json($posts);
     }
 }

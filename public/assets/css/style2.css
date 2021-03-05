@@ -2,3 +2,23 @@
     margin-top:50px;
     margin-bottom:50px;
 }
+.text-crud {
+    color:black;
+}
+.text-crud:hover{
+    color:gray;
+}
+.righta{
+    padding-left:100px;
+    background-color: #f5f5dc;
+}
+#authc{
+    margin-top:50px;
+    margin-bottom: 50px;
+}
+.lnk{
+    color:gray;
+}
+.authimg{
+    border-radius: 5%;
+}
