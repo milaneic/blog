@@ -44,4 +44,26 @@ class HomeController extends Controller
     public function author(){
         return view('author');
     }
+
+    public function allMessages()
+    {
+
+        return view('admin.messages.index',['messages'=>DB::table('questions')->get()]);
+    }
+
+    public function store(Request $request)
+    {
+        $inputs=$request->validate([
+            'caption'=>['string','required','max:255'],
+            'email'=>['required','email','exists:users,email'],
+            'text'=>['required'],
+        ]);
+
+        DB::table('questions')->insert(['user_id'=>auth()->user()->id,'caption'=>$inputs['caption'],'email'=>$inputs['email'],'text'->$inputs['text']]);
+        session()->flash('message','You have successfuly send a message!');
+        session()->flash('alert-class','alert-success');
+        return redirect()->route('contact');
+
+
+    }
 }

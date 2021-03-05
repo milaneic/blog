@@ -82,5 +82,8 @@ Route::middleware(['auth', 'role'])->prefix('admin/')->group(function () {
         Route::PATCH('categories/update/{category}','CategoryController@update')->name('categories.update');
         Route::DELETE('categories/delete/{category}','CategoryController@destroy')->name('categories.destroy');
 
+        //Routes for messages
+        Route::GET('messages','HomeController@allMessages')->name('messages.index');
+        Route::POST('messages/create','HomeController@store')->name('messages.store');
 
 });
