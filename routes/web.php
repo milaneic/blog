@@ -16,13 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/','HomeController@index')->name('home');
+Route::get('/','PostController@index2')->name('home');
 Route::GET('contact','HomeController@contact')->name('contact');
 Route::GET('test','HomeController@test')->name('test');
 Route::GET('author','HomeController@author')->name('author');
 Route::GET('/index2','PostController@index2')->name('index2');
 
 //Filers
+Route::GET('posts/filtera','PostController@filtera')->name('posts.filtera');
 Route::GET('posts/filter','PostController@filter')->name('posts.filter');
 Route::GET('posts/filters','PostController@filters')->name('posts.filters');
 Route::GET('posts/filterd','PostController@filterd')->name('posts.filterd');
@@ -51,7 +52,7 @@ Route::PATCH('users/update/{user}','UserController@update')->middleware(['auth',
 
 Route::middleware(['auth', 'role'])->prefix('admin/')->group(function () {
 
-        Route::GET('home','UserController@home')->name('users.home');
+        Route::GET('home','UserController@home')->name('admin.home');
         //Users
         Route::GET('/users','UserController@index')->name('users.index');
         Route::DELETE('/users/{user}','UserController@destroy')->name('users.delete');
@@ -61,6 +62,7 @@ Route::middleware(['auth', 'role'])->prefix('admin/')->group(function () {
         Route::GET('comments/edit/{comment}','CommentController@edit')->name('comments.edit');
         Route::PATCH('comments','CommentController@update')->name('comments.update');
         Route::DELETE('comments/{comment}','CommentController@destroy')->name('comments.delete');
+        Route::POST('comments/insert','CommentController@insertComm')->name('comments.insertComm');
 
         //Route for roles
         Route::GET('roles','RoleController@index')->name('roles.index');

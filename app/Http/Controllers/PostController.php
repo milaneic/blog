@@ -14,7 +14,11 @@ class PostController
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     *
      */
+
+    const POSTS_LIMIT = 6;
+
     public function index()
     {
         //
@@ -26,7 +30,7 @@ class PostController
     public function index2()
     {
         $this->data['categories']=Category::all();
-        $this->data['posts']=Post::paginate(10);
+        $this->data['posts']=Post::paginate(self::POSTS_LIMIT);
         return view('index2',$this->data);
     }
     /**
@@ -165,10 +169,22 @@ class PostController
         return redirect()->back();
     }
 
+    public function  filtera(Request $request){
+
+         $p = new Post();
+         $cat = $request->categories;
+         $key = $request->key;
+         $ddl = $request->ddl;
+         $posts=$p->getPosts($cat, $ddl, $key)->paginate(self::POSTS_LIMIT);
+         return response()->json($posts);
+    }
+
     public function filter(Request $request)
     {
         $id=$request->id;
-        $posts=POST::where('id',$id)->get();
+        $cat=Category::findOrFail($id);
+        $posts=$cat->posts()->get();
+        //$posts=POST::where('id',$id)->get();
         return response()->json($posts);
     }
 

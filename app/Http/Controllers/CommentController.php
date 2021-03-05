@@ -95,4 +95,9 @@ class CommentController extends Controller
         session()->flash('alert-class','alert-success');
         return redirect()->back();
     }
+
+    public function insertComm(){
+
+
+    }
 }

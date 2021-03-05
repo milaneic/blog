@@ -22,3 +22,9 @@
 .authimg{
     border-radius: 5%;
 }
+.ccl{
+    color:rgb(218, 52, 11);
+}
+.ccl:hover{
+    color:gray;
+}
